@@ -12,15 +12,15 @@ def check_online(place_id):
         if r.status_code == 200:
             return len(r.json()["data"]) > 0
     except:
-        pass
+        return False
     return False
 
 def open_roblox(link):
     os.system(f'am start "{link}"')
 
-def join_normal():
+def join_server():
     place_id = input("Nhập PlaceId: ").strip()
-    job_id = input("Nhập JobId (Enter để random server): ").strip()
+    job_id = input("Nhập JobId (Enter nếu random): ").strip()
 
     if not place_id.isdigit():
         print("❌ PlaceId không hợp lệ")
@@ -43,7 +43,7 @@ def join_normal():
 def join_vip():
     vip = input("Nhập VIP Server Link: ").strip()
     if "roblox.com" not in vip:
-        print("❌ Link không hợp lệ")
+        print("❌ Link VIP không hợp lệ")
         return
     open_roblox(vip)
 
@@ -52,14 +52,13 @@ def auto_rejoin():
     delay = input("Delay (giây, mặc định 10): ").strip()
     delay = int(delay) if delay.isdigit() else 10
 
-    print("🔁 Auto Rejoin đang chạy... Ctrl+C để dừng")
-
+    print("🔁 Auto Rejoin đang chạy (Ctrl + C để dừng)")
     while True:
         if check_online(place_id):
             open_roblox(f"roblox://placeId={place_id}")
             time.sleep(delay)
         else:
-            print("🔴 Server OFFLINE, chờ...")
+            print("🔴 Server OFFLINE, đợi...")
             time.sleep(5)
 
 def menu():
@@ -75,7 +74,7 @@ def menu():
         choice = input("Chọn: ").strip()
 
         if choice == "1":
-            join_normal()
+            join_server()
         elif choice == "2":
             join_vip()
         elif choice == "3":
@@ -89,5 +88,3 @@ def menu():
 
 if _name_ == "_main_":
     menu()
-
-
